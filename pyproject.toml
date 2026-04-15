@@ -1,0 +1,35 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dottie"
+version = "0.1.0"
+description = "A CLI dotfile manager that symlinks files from a dotfiles repo"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "Cris Mihalache", email = "f3rnox42@gmail.com" },
+]
+requires-python = ">=3.10"
+dependencies = [
+    "typer>=0.15",
+    "rich>=13.0",
+]
+
+[project.scripts]
+dottie = "dottie.cli:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dottie"]
+
+[tool.hatch.build.targets.sdist]
+include = ["src/dottie"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
