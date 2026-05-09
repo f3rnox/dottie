@@ -150,6 +150,15 @@ def status() -> None:
     target = get_target_path(cfg)
     ignore = cfg.get("ignore", [])
 
+    home_path = Path.home().resolve()
+    meta = Table(show_header=False, box=None, pad_edge=False)
+    meta.add_column(style="bold")
+    meta.add_column()
+    meta.add_row("Home:", str(home_path))
+    meta.add_row("Dotfiles repo:", str(repo))
+    rprint(meta)
+    rprint()
+
     entries = collect_dotfiles(repo, target, ignore)
 
     if not entries:

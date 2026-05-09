@@ -7,6 +7,7 @@ from enum import Enum
 from pathlib import Path
 
 from rich import print as rprint
+from rich.table import Table
 
 
 class LinkState(str, Enum):
@@ -106,13 +107,17 @@ def unlink_dotfiles(entries: list[DotfileEntry]) -> list[DotfileEntry]:
 
 
 def print_status(entries: list[DotfileEntry]) -> None:
+    table = Table(show_header=False, box=None, pad_edge=False)
+    table.add_column(justify="center", width=2, vertical="middle")
+    table.add_column()
     for entry in entries:
         icon = {
             LinkState.LINKED: "[green]✔[/green]",
             LinkState.CONFLICT: "[yellow]✘[/yellow]",
             LinkState.MISSING: "[dim]○[/dim]",
         }[entry.state]
-        rprint(f"  {icon} {entry.rel_path}")
+        table.add_row(icon, entry.rel_path)
+    rprint(table)
 
 
 def _should_ignore(rel: Path, ignore: list[str]) -> bool:
